@@ -5,7 +5,7 @@ namespace Plugin\Summary\Repository;
 use Eccube\Repository\AbstractRepository;
 use Plugin\Summary\Entity\Config;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-
+use plugin\Summary\Entity\SummaryConfig;
 /**
  * ConfigRepository
  *
@@ -21,13 +21,19 @@ class ConfigRepository extends AbstractRepository
      */
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Config::class);
+        parent::__construct($registry, SummaryConfig::class);
     }
 
+    public function newSummaryConfig()
+    {
+        $SummaryConfig = new \Plugin\Summary\Entity\SummaryConfig();
+
+        return $SummaryConfig;
+    }
     /**
      * @param int $id
      *
-     * @return null|Config
+     * @return SummaryConfig|Config
      */
     public function get($id = 1)
     {
