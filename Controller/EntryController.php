@@ -103,7 +103,7 @@ class EntryController extends \Eccube\Controller\AbstractController
         CustomerRepository $customerRepository,
         EncoderFactoryInterface $encoderFactory,
         ValidatorInterface $validatorInterface,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
         ConfigRepository $ConfigRepository
     ) {
         $this->customerStatusRepository = $customerStatusRepository;
@@ -114,7 +114,7 @@ class EntryController extends \Eccube\Controller\AbstractController
         $this->recursiveValidator = $validatorInterface;
         $this->tokenStorage = $tokenStorage;
         $this->cartService = $cartService;
-        $this->ConfigRepository = $ConfigRepository
+        $this->ConfigRepository = $ConfigRepository;
     }
 
     /**
@@ -150,7 +150,7 @@ class EntryController extends \Eccube\Controller\AbstractController
         $form = $builder->getForm();
 
         $form->handleRequest($request);
-        $tsvValue = $request->get('tsvValue');
+        $Summary = $request->get('Summary');
 
         if ($form->isSubmitted() && $form->isValid()) {
             switch ($request->get('mode')) {
@@ -162,7 +162,7 @@ class EntryController extends \Eccube\Controller\AbstractController
                         'Summary\Resource\default/confirm.twig',
                         [
                             'form' => $form->createView(),
-                            'tsvValue' => $tsvValue,
+                            'Summary' => $Summary,
                         ]
                     );
 
@@ -180,11 +180,12 @@ class EntryController extends \Eccube\Controller\AbstractController
                         ->setSecretKey($secretKey)
                         ->setPoint(0);
 
-                    //$this->entityManager->persist($Customer);
-                    //$this->entityManager->flush();
-					$CustomInfo = $this->$ConfigRepository->newSummaryConfig();
-					$CustomInfo->setSummaryColumn($tsvValue);
-					//$CustomInfo->setCustomId($Customer);
+                    $this->entityManager->persist($Customer);
+                    $this->entityManager->flush();
+					
+                    $CustomInfo = $this->ConfigRepository->newSummaryConfig();
+					$CustomInfo->setSummaryColumn($Summary);
+					$CustomInfo->setCustomId($Customer);
 					
                     $this->entityManager->persist($CustomInfo);
                     $this->entityManager->flush();

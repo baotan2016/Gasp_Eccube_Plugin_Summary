@@ -22,6 +22,16 @@ class SummaryConfig extends AbstractEntity
     private $id;
 
     /**
+     * @var int
+     *
+     * @ORM\ManyToOne(targetEntity="Eccube\Entity\Customer")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
+     * })
+     */
+    private $custom_id;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="SummaryColumn", type="string", length=255)
@@ -42,12 +52,37 @@ class SummaryConfig extends AbstractEntity
         return $this;
     }
 
+
     /**
      * @return int
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get SummaryColumn.
+     *
+     * @return SummaryConfig
+     */
+    public function getCustomId()
+    {
+        return $this->custom_id;
+    }
+
+    /**
+     * Set custom_id.
+     *
+     * @param string $id
+     *
+     * @return Summary
+     */
+    public function setCustomId($id)
+    {
+        $this->custom_id = $id;
+
+        return $this;
     }
 
     /**

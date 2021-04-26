@@ -135,7 +135,8 @@ file that was distributed with this source code.
                             </dt>
                             <dd>
                                 <div>
-                                    <textarea name="Summary" rows="4" cols="40">ここに感想を記入してください。</textarea>
+                                    {{ Summary }}
+                                    <input name="Summary" value="{{ Summary}}" type="hidden"/>
                                 </div>
                             </dd>
                         </dl>
