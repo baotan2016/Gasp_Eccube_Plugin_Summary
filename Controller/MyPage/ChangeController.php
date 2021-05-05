@@ -91,6 +91,13 @@ class ChangeController extends \Eccube\Controller\AbstractController
         $form = $builder->getForm();
         $form->handleRequest($request);
 
+        #追加したソース
+        #$ConfigRepositoryを追加すると500エラーが出る
+        #getの使い方が違う？二要素認証のソースを参考に適当に値を入れてる
+        #$Summary = $request->get('Summary');
+        #$Summary = $this->$ConfigRepository->get();
+        $Summary = "aiueo";
+
         if ($form->isSubmitted() && $form->isValid()) {
             log_info('会員編集開始');
 
@@ -112,7 +119,7 @@ class ChangeController extends \Eccube\Controller\AbstractController
             $event = new EventArgs(
                 [
                     'form' => $form,
-                    'Customer' => $Customer,
+                    'Customer' => $Customer,  
                 ],
                 $request
             );
@@ -125,6 +132,9 @@ class ChangeController extends \Eccube\Controller\AbstractController
 
         return [
             'form' => $form->createView(),
+            #追加したソース
+            #追記→ここのreturnで返すことで画面に反映されるっぽい
+            'Summary' => $Summary,
         ];
     }
 
