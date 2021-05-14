@@ -37,9 +37,10 @@ class ConfigRepository extends AbstractRepository
      */
     public function get($custom)
     {
-        //return $this->find($id);
+        #return $this->find($id);
         //return $this->find(1);
         return $this->findOneBy(['custom_id' => $custom]);
+        #return $this->findOneBy(['Summary' => $custom]);
         //return 0;
     }
 }

@@ -95,8 +95,10 @@ class ChangeController extends \Eccube\Controller\AbstractController
         #$ConfigRepositoryを追加すると500エラーが出る
         #getの使い方が違う？二要素認証のソースを参考に適当に値を入れてる
         #$Summary = $request->get('Summary');
-        #$Summary = $this->$ConfigRepository->get();
-        $Summary = "aiueo";
+        $requestSummary = $request->get('Summary');
+        $Summary = $this->ConfigRepository->get($Customer);
+        #$Summary = $this->ConfigRepository->get();
+        #$Summary = $ConfigRepository->getSummaryColumn();
 
         if ($form->isSubmitted() && $form->isValid()) {
             log_info('会員編集開始');
@@ -113,7 +115,11 @@ class ChangeController extends \Eccube\Controller\AbstractController
                 );
             }
             $this->entityManager->flush();
-
+            #$CustomInfo = $this->ConfigRepository->newSummaryConfig();
+            $CustomInfo = $this->ConfigRepository->get($Customer);
+            $CustomInfo->setSummaryColumn($requestSummary);
+            $this->entityManager->persist($CustomInfo);
+            $this->entityManager->flush();
             log_info('会員編集完了');
 
             $event = new EventArgs(
